@@ -3,7 +3,10 @@
 #include <iterator>
 #include <sstream>
 #include <algorithm>
+#include <vector>
 
+
+static std::map<std::string, std::string> C__ {{".-", "A"}};
 static std::map<std::string, std::string> T__{{"A", ".-"}, {"B", "-..."},
                                               {"C", "-.-."}, {"D", "-.."} };
 
