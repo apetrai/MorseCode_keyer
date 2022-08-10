@@ -1,4 +1,4 @@
-## Converts text into morse code.
+## A decoder and incoder for Morse Code.
 #### :warning:  Currently latin characters are supported only.
 
 #### To build: 
