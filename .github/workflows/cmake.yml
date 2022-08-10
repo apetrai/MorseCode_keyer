@@ -27,7 +27,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake ${{github.workspace}}/src --config ${{env.BUILD_TYPE}}
+      run: cmake -b ${{github.workspace}}/src --config ${{env.BUILD_TYPE}}
 
     - name: Test
       working-directory: ${{github.workspace}}/src/build
