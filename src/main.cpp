@@ -4,8 +4,9 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
-#include "dictionary.h"
 
+#include "dictionary.h"
+#include "nums.h"
 
 int main(int argc, char **argv) {
     std::string buffer;
