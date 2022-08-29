@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-static inline std::map<std::string, std::string> C__{{".-", "A"}, {"-...", "B"},
+inline std::map<std::string, std::string> C__{{".-", "A"}, {"-...", "B"},
                                               {"-.-.", "C"}, {"-..", "D"},
                                               {".", "E"}, {"..-.", "F"},
                                               {"--.", "G"}, {"....", "H"},
@@ -18,7 +18,7 @@ static inline std::map<std::string, std::string> C__{{".-", "A"}, {"-...", "B"},
                                               {".--", "W"}, {"-..-", "X"},
                                               {"-.--", "Y"}, {"--..", "Z"}};
 //-------------------------------------------------------------------------
-static inline std::map<std::string, std::string> T__{{"A", ".-"}, {"B", "-..."},
+inline std::map<std::string, std::string> T__{{"A", ".-"}, {"B", "-..."},
                                               {"C", "-.-."}, {"D", "-.."},
                                               {"E", "."}, {"F", "..-."},
                                               {"G", "--."}, {"H", "...."},
