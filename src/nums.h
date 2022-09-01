@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-static inline std::map<std::string, std::string> N__{{"1", ".----"},
+inline std::map<std::string, std::string> N__{{"1", ".----"},
                                                      {"2", "..---"},
                                                      {"3", "...--"},
                                                      {"4", "....-"},
@@ -15,7 +15,7 @@ static inline std::map<std::string, std::string> N__{{"1", ".----"},
                                                      {"9", "----."},
                                                      {"0", "-----"}};
 /* --------------------------------------------------------------- */
-static inline std::map<std::string, std::string> N_C{{".----", "1"},
+inline std::map<std::string, std::string> N_C{{".----", "1"},
                                                      {"..---", "2"},
                                                      {"...--", "3"},
                                                      {"....-", "4"},
