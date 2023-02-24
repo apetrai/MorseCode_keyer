@@ -9,8 +9,7 @@
 ### Getting started.
 The project is built with CMake in order to build run the following:
 ```bash
-cmake . 
-make
+cmake .; make
 ```
 To run simply:
 ```bash
