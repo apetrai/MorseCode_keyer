@@ -1,3 +1,7 @@
-.vscode/
+/out
+bin/
 build/
-CMakeFiles/
+/.vs
+.idea/
+CMakeSettings.json
+Makefile
