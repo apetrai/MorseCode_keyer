@@ -1,0 +1,4 @@
+# ninja log v5
+2	607	7433796510060218	build.ninja	cfc24c96de163781
+1	1138	7433794452526915	CMakeFiles/MorseCode_keyer.dir/src/main.cpp.obj	7b08ba277b5db982
+1140	1394	7433794454587555	MorseCode_keyer.exe	432fa92cd051280d
