@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-#include "../src/MAIN_UI.cpp"
 
 #define X 1000;
 #define Y 1000;
@@ -20,7 +19,7 @@ namespace UI {
 			Vector2f WIN_SIZE = {}; //default initialised
 		};
 	public:
-		constexpr inline void CreateTextBox() noexcept;
+		inline void CreateTextBox() noexcept;
 		inline void ChangeTextBox(RenderWindow& window, Constraints* constraints) noexcept;
 
 

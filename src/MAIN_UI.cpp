@@ -6,7 +6,7 @@
 using namespace sf;
 using namespace UI;
 
-constexpr inline void MAIN::CreateTextBox() noexcept {
+inline void MAIN::CreateTextBox() noexcept {
 	// Create a text box
 	sf::RectangleShape textBox(sf::Vector2f(780, 100));
 	textBox.setPosition(10.f, 10.f);

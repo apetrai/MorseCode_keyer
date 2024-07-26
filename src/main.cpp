@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "../include/MAIN_UI.h"
+#include "../include/Main_UI.h"
 
 #include <iostream>
 #include <sstream>
@@ -8,14 +8,13 @@
 #include <string>
 #include <stdexcept>
 
-
-
-
-//if you want to load OpenGL
-//#include <glad/glad.h>
-//#include <errorReporting.h>
-
 using namespace sf; //SFML namespace
+
+#define FRAME_LIMIT 120
+
+#define WIDTH 1000
+#define LENGTH 1000
+constexpr unsigned char aspectRatio = 1;
 
 
 #include <SFML/Window.hpp>
@@ -23,28 +22,28 @@ using namespace sf; //SFML namespace
 
 int main()
 {
-   RenderWindow window(VideoMode(X, Y), "Morse Code Keyer");
+   RenderWindow window(VideoMode(WIDTH, LENGTH), "Morse Code Keyer");
   
 
    // Set the frame rate limit
-   window.setFramerateLimit(120);
+   window.setFramerateLimit(FRAME_LIMIT);
 
    // Load a font (make sure the font file is in the correct directory)
    sf::Font font;
-   if (!font.loadFromFile("Roboto-Medium.ttf")) {
+  if (!font.loadFromFile("Roboto-Medium.ttf")) {
        throw std::runtime_error("Font failed to load!");
-   }
+   } 
    // Create a text object
    sf::Text text;
    text.setFont(font);
-   text.setCharacterSize(24); // in pixels
+   text.setCharacterSize(100); // in pixels
    text.setFillColor(sf::Color::Black);
    text.setPosition(10.f, 10.f);
 
    // Create a text object for input
    sf::Text inputText;
    inputText.setFont(font);
-   inputText.setCharacterSize(24); // in pixels
+   inputText.setCharacterSize(100); // in pixels
    inputText.setFillColor(sf::Color::Black);
    inputText.setPosition(10.f, 10.f);
 
@@ -63,9 +62,10 @@ int main()
    // Create a text object for the button
    sf::Text buttonText;
    buttonText.setFont(font);
-   buttonText.setCharacterSize(24); // in pixels
+   buttonText.setCharacterSize(100); // in pixels
    buttonText.setFillColor(sf::Color::White);
    buttonText.setString("Clear Text");
+
    buttonText.setPosition(button.getPosition().x + 20, button.getPosition().y + 10);
 
    // Background color
@@ -73,6 +73,9 @@ int main()
 
    std::string input;
    bool textBoxActive = false;
+
+   sf::View view(sf::FloatRect(0, 0, WIDTH, LENGTH));
+   window.setView(view);
 
     while (window.isOpen())
     {
@@ -136,7 +139,8 @@ int main()
                     }
                 }
     
-            }if (button.getGlobalBounds().contains(mousePosF)) {
+            }
+            if (button.getGlobalBounds().contains(mousePosF)) {
                 // Button pressed, clear the text
                 input.clear();
                 inputText.setString(input);
@@ -144,11 +148,43 @@ int main()
 
 
             }
+            if (event.type == sf::Event::Resized)
+            {
+                // Get the new window size
+                float newWidth = event.size.width;
+                float newHeight = event.size.height;
+
+                // Calculate new dimensions to maintain aspect ratio
+                float newAspectRatio = newWidth / newHeight;
+                if (newAspectRatio > aspectRatio)
+                {
+                    newWidth = newHeight * aspectRatio;
+                }
+                else
+                {
+                    newHeight = newWidth / aspectRatio;
+                }
+
+                // Center the view
+                view.setSize(newWidth, newHeight);
+                view.setViewport(sf::FloatRect((event.size.width - newWidth) / (newWidth * event.size.width),
+                    ((event.size.height - newHeight) / (newHeight * event.size.height)),
+                    (newWidth / event.size.width),
+                   (newHeight / event.size.height)));
+                
+                inputText.setCharacterSize((newWidth / event.size.width) * 100);
+
+
+                textBox.setPosition(0, 0);
+                window.setView(view);
+            }
        
             Vector2f winPos(static_cast<Vector2f>(window.getSize()));
             Vector2f winPosF(winPos.x / 10, winPos.y / 10);
-            inputText.setCharacterSize(winPos.x / 200.f);
-            button.setSize(winPosF);
+   
+
+
+           // button.setSize(winPosF);
             
             // Clear the window with the background color
             window.clear(backgroundColor);
