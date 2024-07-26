@@ -1,23 +1,21 @@
-cmake_minimum_required(VERSION 3.10)
-project(MorseCode_keyer)
+cmake_minimum_required(VERSION 3.16)
+project(MorseCode_Keyer LANGUAGES CXX)
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
-# Add the executable
-add_executable(MorseCode_keyer src/main.cpp "include/Main_UI.h" "src/MAIN_UI.cpp")
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 2.6.x)
+FetchContent_MakeAvailable(SFML)
 
-# Specify the path to SFML
-set(SFML_DIR "C:\\SFML\\lib\\cmake\\SFML") # Update this path to your SFML installation
+include_directories(include)
 
-
-set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};C:/SFML/lib/cmake/SFML")
-
-# Find SFML libraries
-find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
-
-# Link SFML libraries
-target_link_libraries(MorseCode_keyer sfml-graphics sfml-window sfml-system)
-
+add_executable(MorseCodeKeyer 
+            src/main.cpp
+            src/Main_UI.cpp
+            include/Main_UI.h)
+target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
+target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
 
