@@ -10,7 +10,13 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(MorseCodeKeyer src/main.cpp include/Main_UI.h src/Main_UI.cpp)
+# Find OpenAL
+find_package(OpenAL REQUIRED)
+
+add_executable(MorseCodeKeyer ${CMAKE_SOURCE_DIR}/src/main.cpp ${CMAKE_SOURCE_DIR}/include/Main_UI.h ${CMAKE_SOURCE_DIR}/src/Main_UI.cpp)
 target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
 target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
 
+# Include OpenAL
+include_directories(${OPENAL_INCLUDE_DIR})
+target_link_libraries(MorseCodeKeyer PRIVATE ${OPENAL_LIBRARY})

@@ -5,3 +5,10 @@ build/
 .idea/
 CMakeSettings.json
 Makefile
+CMakeCache.txt
+CMakeFiles/
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_deps/
+cmake_install.cmake
+
