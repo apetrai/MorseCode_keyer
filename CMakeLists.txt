@@ -13,6 +13,8 @@ FetchContent_MakeAvailable(SFML)
 # Find OpenAL
 find_package(OpenAL REQUIRED)
 
+find_package(OpenGL REQUIRED)
+
 add_executable(MorseCodeKeyer ${CMAKE_SOURCE_DIR}/src/main.cpp ${CMAKE_SOURCE_DIR}/include/Main_UI.h ${CMAKE_SOURCE_DIR}/src/Main_UI.cpp)
 target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
 target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
@@ -20,3 +22,6 @@ target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
 # Include OpenAL
 include_directories(${OPENAL_INCLUDE_DIR})
 target_link_libraries(MorseCodeKeyer PRIVATE ${OPENAL_LIBRARY})
+
+include_directories(${OPENGL_INCLUDE_DIR})
+target_link_libraries(MorseCodeKeyer PRIVATE ${OPENGL_LIBRARY})
