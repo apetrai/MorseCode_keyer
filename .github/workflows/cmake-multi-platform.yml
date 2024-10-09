@@ -27,14 +27,17 @@ jobs:
         brew update
         brew install sfml
 
-    # Install dependencies for Windows
-    - name: Install dependencies on Windows
+    # Install SFML using vcpkg for Windows
+    - name: Install vcpkg on Windows
       if: runner.os == 'Windows'
       run: |
-        choco install sfml
+        git clone https://github.com/microsoft/vcpkg.git
+        .\vcpkg\bootstrap-vcpkg.bat
+        .\vcpkg\vcpkg.exe install sfml:x64-windows
 
+    # Configure CMake to use vcpkg toolchain
     - name: Configure CMake
-      run: cmake . -B build
+      run: cmake . -B build -DCMAKE_TOOLCHAIN_FILE=$env:GITHUB_WORKSPACE\vcpkg\scripts\buildsystems\vcpkg.cmake
 
     - name: Build
       run: cmake --build build
