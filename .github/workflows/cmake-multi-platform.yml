@@ -36,6 +36,10 @@ jobs:
         .\vcpkg\vcpkg.exe install sfml:x64-windows
         choco install ninja
 
+    # Set the environment variable for vcpkg
+    - name: Set vcpkg environment
+      run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
+
     # Configure CMake to use vcpkg toolchain
     - name: Configure CMake
       run: cmake . -B build -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
@@ -47,4 +51,3 @@ jobs:
     # Run tests (if applicable)
     - name: Run Tests
       run: cd build && ctest
-
