@@ -36,6 +36,14 @@ jobs:
         .\vcpkg\vcpkg.exe install sfml:x64-windows
         choco install ninja
 
+    # Install vcpkg for Linux and macOS
+    - name: Install vcpkg on Linux/macOS
+      if: runner.os != 'Windows'
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git
+        ./vcpkg/bootstrap-vcpkg.sh
+        ./vcpkg/vcpkg install sfml
+
     # Set the environment variable for vcpkg
     - name: Set vcpkg environment
       run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
