@@ -25,3 +25,7 @@ target_link_libraries(MorseCodeKeyer PRIVATE ${OPENAL_LIBRARY})
 
 include_directories(${OPENGL_INCLUDE_DIR})
 target_link_libraries(MorseCodeKeyer PRIVATE ${OPENGL_LIBRARY})
+
+if(DEFINED ENV{VCPKG_ROOT})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
