@@ -26,12 +26,7 @@ jobs:
           libxi-dev \
           libudev-dev \
           build-essential \
-          libopenal-dev || true # Proceed even if this fails
-        # Check for available packages for Vorbis and OGG
-        apt-cache search vorbis
-        apt-cache search ogg
-        # Install Vorbis and OGG libraries
-        sudo apt-get install -y \
+          libopenal-dev \
           libvorbis-dev \
           libogg-dev
 
@@ -42,7 +37,7 @@ jobs:
         brew update
         brew install sfml openal-soft libvorbis
 
-    # Install dependencies for Windows (manual install without Chocolatey)
+    # Install dependencies for Windows
     - name: Install dependencies on Windows
       if: runner.os == 'Windows'
       run: |
@@ -51,14 +46,13 @@ jobs:
         git checkout tags/2.6.1  # Checkout the desired version
         mkdir build
         cd build
-        cmake .. -G "Visual Studio 16 2019"  # Use the appropriate generator
-        cmake --build . --config Release
+        cmake ..  # Default generator (Makefiles)
 
     # Configure CMake
     - name: Configure CMake
       run: cmake . -B build
 
-    # Build the project
+    # Build the project using Make
     - name: Build
       run: cmake --build build
 
