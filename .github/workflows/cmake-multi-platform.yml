@@ -18,16 +18,24 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libsfml-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev libudev-dev build-essential
+        sudo apt-get install -y \
+          libsfml-dev \
+          libx11-dev \
+          libgl1-mesa-dev \
+          libxrandr-dev \
+          libxi-dev \
+          libudev-dev \
+          build-essential \
+          libopenal-dev  # Install OpenAL development libraries
 
     # Install dependencies for macOS
     - name: Install dependencies on macOS
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install sfml
+        brew install sfml openal-soft  # Install SFML and OpenAL
 
-    # Install dependencies for Windows (without Chocolatey)
+    # Install dependencies for Windows (manual install without Chocolatey)
     - name: Install dependencies on Windows
       if: runner.os == 'Windows'
       run: |
@@ -39,7 +47,7 @@ jobs:
         cmake .. -G "Visual Studio 16 2019"  # Use the appropriate generator
         cmake --build . --config Release
 
-    # Configure CMake for your project
+    # Configure CMake
     - name: Configure CMake
       run: cmake . -B build
 
@@ -50,3 +58,4 @@ jobs:
     # Run tests (if applicable)
     - name: Run Tests
       run: cd build && ctest
+
