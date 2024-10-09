@@ -27,30 +27,21 @@ jobs:
         brew update
         brew install sfml
 
-    # Install vcpkg and dependencies for Windows
-    - name: Install vcpkg on Windows
+    # Install dependencies for Windows (without Chocolatey)
+    - name: Install dependencies on Windows
       if: runner.os == 'Windows'
       run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg.exe install sfml:x64-windows
-        choco install ninja
+        git clone https://github.com/SFML/SFML.git
+        cd SFML
+        git checkout tags/2.6.1  # Checkout the desired version
+        mkdir build
+        cd build
+        cmake .. -G "Visual Studio 16 2019"  # Use the appropriate generator
+        cmake --build . --config Release
 
-    # Install vcpkg for Linux and macOS
-    - name: Install vcpkg on Linux/macOS
-      if: runner.os != 'Windows'
-      run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        ./vcpkg/bootstrap-vcpkg.sh
-        ./vcpkg/vcpkg install sfml
-
-    # Set the environment variable for vcpkg
-    - name: Set vcpkg environment
-      run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vcpkg" >> $GITHUB_ENV
-
-    # Configure CMake to use vcpkg toolchain
+    # Configure CMake for your project
     - name: Configure CMake
-      run: cmake . -B build -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      run: cmake . -B build
 
     # Build the project
     - name: Build
