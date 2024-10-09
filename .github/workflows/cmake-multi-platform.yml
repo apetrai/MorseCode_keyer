@@ -26,14 +26,16 @@ jobs:
           libxi-dev \
           libudev-dev \
           build-essential \
-          libopenal-dev  # Install OpenAL development libraries
+          libopenal-dev \     # OpenAL development libraries
+          libvorbis-dev \     # Vorbis development libraries
+          libogg-dev          # OGG development libraries
 
     # Install dependencies for macOS
     - name: Install dependencies on macOS
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install sfml openal-soft  # Install SFML and OpenAL
+        brew install sfml openal-soft vorbis
 
     # Install dependencies for Windows (manual install without Chocolatey)
     - name: Install dependencies on Windows
