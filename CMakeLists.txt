@@ -10,10 +10,7 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-# Find OpenAL
-find_package(OpenAL REQUIRED)
 
-find_package(OpenGL REQUIRED)
 
 add_executable(MorseCodeKeyer ${CMAKE_SOURCE_DIR}/src/main.cpp ${CMAKE_SOURCE_DIR}/include/Main_UI.h ${CMAKE_SOURCE_DIR}/src/Main_UI.cpp)
 target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
@@ -25,7 +22,3 @@ target_link_libraries(MorseCodeKeyer PRIVATE ${OPENAL_LIBRARY})
 
 include_directories(${OPENGL_INCLUDE_DIR})
 target_link_libraries(MorseCodeKeyer PRIVATE ${OPENGL_LIBRARY})
-
-if(DEFINED ENV{VCPKG_ROOT})
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-endif()
