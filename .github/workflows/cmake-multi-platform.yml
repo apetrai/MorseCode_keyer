@@ -29,14 +29,15 @@ jobs:
           libopenal-dev \
           libvorbis-dev \
           libogg-dev \
-          libflac-dev  # Install FLAC development libraries
+          libflac-dev \
+          libxcursor-dev  # Install Xcursor development libraries
 
     # Install dependencies for macOS
     - name: Install dependencies on macOS
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install sfml openal-soft libvorbis flac  # Install FLAC as well
+        brew install sfml openal-soft libvorbis flac xorg-xcursor
 
     # Install dependencies for Windows (manual install without Chocolatey)
     - name: Install dependencies on Windows
@@ -56,6 +57,10 @@ jobs:
     # Build the project using Make
     - name: Build
       run: cmake --build build
+
+    # Run tests (if applicable)
+    - name: Run Tests
+      run: cd build && ctest
 
     # Run tests (if applicable)
     - name: Run Tests
