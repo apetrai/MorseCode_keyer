@@ -1,6 +1,5 @@
 <div align="center">
   <h2> Morse Code keyer. <img height="50" src="https://www.pngrepo.com/png/38633/512/morse-code.png"></h2>
-<img src="https://github.com/apetrai/MorseCode_translator/actions/workflows/cmake.yml/badge.svg"> 
  <img src="https://img.shields.io/github/issues/apetrai/MorseCode_translator">
   <img src="https://img.shields.io/github/v/tag/apetrai/MorseCode_translator">
 

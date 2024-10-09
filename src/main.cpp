@@ -8,7 +8,7 @@
 #include <string>
 #include <stdexcept>
 
-using namespace sf; //SFML namespace
+using namespace sf; // SFML namespace
 
 #define FRAME_LIMIT 120
 
@@ -16,66 +16,63 @@ using namespace sf; //SFML namespace
 #define LENGTH 1000
 constexpr unsigned char aspectRatio = 1;
 
-
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
 int main()
 {
-   RenderWindow window(VideoMode(WIDTH, LENGTH), "Morse Code Keyer");
-  
+    RenderWindow window(VideoMode(WIDTH, LENGTH), "Morse Code Keyer");
 
-   // Set the frame rate limit
-   window.setFramerateLimit(FRAME_LIMIT);
+    // Set the frame rate limit
+    window.setFramerateLimit(FRAME_LIMIT);
 
-   // Load a font (make sure the font file is in the correct directory)
-   sf::Font font;
-  if (!font.loadFromFile("Roboto-Medium.ttf")) {
-       throw std::runtime_error("Font failed to load!");
-   } 
-   // Create a text object
-   sf::Text text;
-   text.setFont(font);
-   text.setCharacterSize(100); // in pixels
-   text.setFillColor(sf::Color::Black);
-   text.setPosition(10.f, 10.f);
+    // Load a font (make sure the font file is in the correct directory)
+    sf::Font font;
+    if (!font.loadFromFile("bin/Roboto-Medium.ttf")) {
+        std::cerr << "Error loading font!" << std::endl;
+        return -1;
+    }
 
-   // Create a text object for input
-   sf::Text inputText;
-   inputText.setFont(font);
-   inputText.setCharacterSize(100); // in pixels
-   inputText.setFillColor(sf::Color::Black);
-   inputText.setPosition(10.f, 10.f);
+    // Create a text object for displaying input
+    sf::Text inputText;
+    inputText.setFont(font);
+    inputText.setCharacterSize(20); // in pixels
+    inputText.setFillColor(sf::Color::Black);
+    inputText.setPosition(20.f, 20.f); // Updated position for better visibility
 
-   // Create a text box
-   sf::RectangleShape textBox(sf::Vector2f(780, 100));
-   textBox.setPosition(10.f, 10.f);
-   textBox.setFillColor(sf::Color(255, 255, 255));
-   textBox.setOutlineThickness(2);
-   textBox.setOutlineColor(sf::Color(0, 0, 0));
+    // Create a text box for input
+    sf::RectangleShape textBox(sf::Vector2f(780, 100));
+    textBox.setPosition(10.f, 10.f);
+    textBox.setFillColor(sf::Color(255, 255, 255));
+    textBox.setOutlineThickness(2);
+    textBox.setOutlineColor(sf::Color(0, 0, 0));
 
-   // Create a button
-   sf::RectangleShape button(sf::Vector2f(200, 50));
-   button.setPosition(300.f, 500.f);
-   button.setFillColor(sf::Color(100, 100, 250));
+    // Create a button
+    sf::RectangleShape button(sf::Vector2f(200, 50));
+    button.setPosition(300.f, 500.f);
+    button.setFillColor(sf::Color(100, 100, 250));
 
-   // Create a text object for the button
-   sf::Text buttonText;
-   buttonText.setFont(font);
-   buttonText.setCharacterSize(100); // in pixels
-   buttonText.setFillColor(sf::Color::White);
-   buttonText.setString("Clear Text");
+    // Create a text object for the button
+    sf::Text buttonText;
+    buttonText.setFont(font);
+    buttonText.setCharacterSize(20); // in pixels
+    buttonText.setFillColor(sf::Color::White);
+    buttonText.setString("Clear Text");
+    buttonText.setPosition(button.getPosition().x + 20, button.getPosition().y + 10);
 
-   buttonText.setPosition(button.getPosition().x + 20, button.getPosition().y + 10);
+    // Placeholder text
+    sf::Text placeholderText;
+    placeholderText.setFont(font);
+    placeholderText.setString("Enter text here...");
+    placeholderText.setCharacterSize(20);
+    placeholderText.setFillColor(sf::Color(150, 150, 150)); // Light gray for placeholder
+    placeholderText.setPosition(20.f, 20.f); // Position matching inputText
 
-   // Background color
-   sf::Color backgroundColor = sf::Color(71, 68, 68);
+    // Background color
+    sf::Color backgroundColor = sf::Color(71, 68, 68);
 
-   std::string input;
-   bool textBoxActive = false;
-
-   sf::View view(sf::FloatRect(0, 0, WIDTH, LENGTH));
-   window.setView(view);
+    std::string input;
+    bool textBoxActive = false;
 
     while (window.isOpen())
     {
@@ -83,125 +80,79 @@ int main()
 
         while (window.pollEvent(event))
         {
-            if (event.key.control && event.key.code == Keyboard::U ) input.clear();
-
-            if (event.type == sf::Event::Closed)
+            if (event.type == Event::Closed)
                 window.close();
 
-
-            if (event.type == sf::Event::TextEntered) {
-                // Handle text input
-                if (event.text.unicode < 128) {
-                    if (event.text.unicode == 8 && !input.empty() ) { // Handle backspace
-                        input.pop_back();
+            if (event.type == Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == Mouse::Left)
+                {
+                    if (textBox.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        textBoxActive = true;
                     }
-                    if (event.text.unicode == 13 ) { // Handle Enter key (new line)
-                        input += "\n";
+                    else
+                    {
+                        textBoxActive = false; // Deactivate if clicked outside
                     }
-                    if (event.text.unicode != 8 && event.text.unicode != 13) {
-                        input += static_cast<char>(event.text.unicode);
-                    }
-
                 }
             }
-            
-            inputText.setString(input);
 
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-
-            if(textBoxActive = false) {
-                if (event.type == sf::Event::MouseButtonPressed) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-
-                        if (textBox.getGlobalBounds().contains(mousePosF)) {
-                            textBoxActive = true;
-                            inputText.setString(input);
-                            // Clear the window with the background color
-                            window.clear(backgroundColor);
-
-                            window.draw(textBox);
-
-                            // Draw the text
-                            window.draw(inputText);
-
-
-                            // Draw the button
-                            window.draw(button);
-                            window.draw(buttonText);
-
-                            // Display the content drawn
-                            window.display();
-                            continue;
-
-
+            if (textBoxActive)
+            {
+                if (event.type == Event::TextEntered)
+                {
+                    // Handle text input
+                    if (event.text.unicode < 128) // Ensure character is valid
+                    {
+                        if (event.text.unicode == 8 && !input.empty()) // Handle backspace
+                        {
+                            input.pop_back();
+                        }
+                        else if (event.text.unicode == 13) // Handle Enter key (new line)
+                        {
+                            input += "\n";
+                        }
+                        else if (event.text.unicode != 8 && event.text.unicode != 13)
+                        {
+                            input += static_cast<char>(event.text.unicode);
                         }
                     }
                 }
-    
             }
-            if (button.getGlobalBounds().contains(mousePosF)) {
+
+            if (button.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)) && event.type == Event::MouseButtonPressed)
+            {
                 // Button pressed, clear the text
                 input.clear();
-                inputText.setString(input);
-                // Draw the text box
-
-
             }
-            if (event.type == sf::Event::Resized)
-            {
-                // Get the new window size
-                float newWidth = event.size.width;
-                float newHeight = event.size.height;
 
-                // Calculate new dimensions to maintain aspect ratio
-                float newAspectRatio = newWidth / newHeight;
-                if (newAspectRatio > aspectRatio)
-                {
-                    newWidth = newHeight * aspectRatio;
-                }
-                else
-                {
-                    newHeight = newWidth / aspectRatio;
-                }
-
-                // Center the view
-                view.setSize(newWidth, newHeight);
-                view.setViewport(sf::FloatRect((event.size.width - newWidth) / (newWidth * event.size.width),
-                    ((event.size.height - newHeight) / (newHeight * event.size.height)),
-                    (newWidth / event.size.width),
-                   (newHeight / event.size.height)));
-                
-                inputText.setCharacterSize((newWidth / event.size.width) * 100);
-
-
-                textBox.setPosition(0, 0);
-                window.setView(view);
-            }
-       
-            Vector2f winPos(static_cast<Vector2f>(window.getSize()));
-            Vector2f winPosF(winPos.x / 10, winPos.y / 10);
-   
-
-
-           // button.setSize(winPosF);
-            
-            // Clear the window with the background color
-            window.clear(backgroundColor);
-
-            window.draw(textBox);
-
-            // Draw the text
-            window.draw(inputText);
-           
-
-            // Draw the button
-            window.draw(button);
-            window.draw(buttonText);
-
-            // Display the content drawn
-            window.display();
+            // Update inputText to show current input
+            inputText.setString(input);
         }
+
+        // Clear the window with the background color
+        window.clear(backgroundColor);
+
+        // Draw the text box
+        window.draw(textBox);
+
+        // Draw the input text or placeholder
+        if (input.empty() && !textBoxActive)
+        {
+            window.draw(placeholderText);
+        }
+        else
+        {
+            window.draw(inputText);
+        }
+
+        // Draw the button and button text
+        window.draw(button);
+        window.draw(buttonText);
+
+        // Display the content drawn
+        window.display();
     }
 
     return 0;
