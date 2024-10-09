@@ -28,16 +28,17 @@ jobs:
           build-essential \
           libopenal-dev \
           libvorbis-dev \
-          libogg-dev
+          libogg-dev \
+          libflac-dev  # Install FLAC development libraries
 
     # Install dependencies for macOS
     - name: Install dependencies on macOS
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install sfml openal-soft libvorbis
+        brew install sfml openal-soft libvorbis flac  # Install FLAC as well
 
-    # Install dependencies for Windows
+    # Install dependencies for Windows (manual install without Chocolatey)
     - name: Install dependencies on Windows
       if: runner.os == 'Windows'
       run: |
@@ -59,5 +60,4 @@ jobs:
     # Run tests (if applicable)
     - name: Run Tests
       run: cd build && ctest
-
 
