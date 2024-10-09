@@ -26,16 +26,21 @@ jobs:
           libxi-dev \
           libudev-dev \
           build-essential \
-          libopenal-dev \     # OpenAL development libraries
-          libvorbis-dev \     # Vorbis development libraries
-          libogg-dev          # OGG development libraries
+          libopenal-dev || true # Proceed even if this fails
+        # Check for available packages for Vorbis and OGG
+        apt-cache search vorbis
+        apt-cache search ogg
+        # Install Vorbis and OGG libraries
+        sudo apt-get install -y \
+          libvorbis-dev \
+          libogg-dev
 
     # Install dependencies for macOS
     - name: Install dependencies on macOS
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install sfml openal-soft vorbis
+        brew install sfml openal-soft libvorbis
 
     # Install dependencies for Windows (manual install without Chocolatey)
     - name: Install dependencies on Windows
@@ -60,4 +65,5 @@ jobs:
     # Run tests (if applicable)
     - name: Run Tests
       run: cd build && ctest
+
 
