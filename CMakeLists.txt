@@ -10,9 +10,13 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
+add_executable(MorseCodeKeyer
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
+    ${CMAKE_SOURCE_DIR}/include/textbox.h
+    ${CMAKE_SOURCE_DIR}/src/textbox.cpp
+    ${CMAKE_SOURCE_DIR}/include/render.h
+)
 
-
-add_executable(MorseCodeKeyer ${CMAKE_SOURCE_DIR}/src/main.cpp ${CMAKE_SOURCE_DIR}/include/Main_UI.h ${CMAKE_SOURCE_DIR}/src/Main_UI.cpp)
 target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
 target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
 
