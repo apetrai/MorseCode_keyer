@@ -16,7 +16,6 @@ int main() {
 
     Textbox textbox(15, sf::Color::White, true);
     textbox.setFont(Roboto);
-    textbox.setPosition({250,250});
 
     sf::View view(sf::FloatRect(0, 0, 900, 900)); //Default view of the window.
 
@@ -46,10 +45,13 @@ int main() {
             {
                 // If the window is too wide, match the height and center horizontally
                 view.setSize(900.0f * (newWidth / newHeight), 900.0f);
-                WIN.window.setView(view);
+                view.setViewport(sf::FloatRect(0, 0, 1, 1));
+                sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+        WIN.window.setView(sf::View(visibleArea));
+             
                 } else {
                     // If the window is too tall, match the width and center vertically
-                    view.setSize(900.0f, 900.0f * (newHeight / newWidth));
+                    view.setSize(900.0f * (newWidth / newHeight), 900.0f);
                     WIN.window.setView(view);
                 }
 
@@ -60,7 +62,8 @@ int main() {
                    textbox.typedOn(event);
                }
             }
-
+            WIN.window.setVerticalSyncEnabled(true);
+            textbox.setPosition({0, 0});
             WIN.window.clear(sf::Color(45, 45, 68, 1));
             textbox.drawTo(WIN.window);
             WIN.window.display();
