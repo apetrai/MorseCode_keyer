@@ -12,7 +12,7 @@
 #define ESCAPE 27
 
 class Textbox {
-private:
+public:
     sf::Text textbox;
     std::string text = "";
     bool isSelected = false;
