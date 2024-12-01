@@ -18,6 +18,7 @@ public:
     bool isSelected = false;
     bool hasLimit = false;
     int limit;
+    sf::Font font;
 
     void inputLogic(char charTyped) {
         if (charTyped != DELETE && charTyped != ENTER && charTyped != ESCAPE) {
@@ -40,16 +41,12 @@ public:
 
 public:
     Textbox() {}
-    Textbox(int size, sf::Color color, bool sel) {
+    Textbox(int size, sf::Color color, bool sel, sf::Font &fnt) {
         textbox.setCharacterSize(size);
         textbox.setFillColor(color);
         isSelected = sel;
-        if (sel) {
-            textbox.setString("_");
-        }
-        else {
-            textbox.setString("");
-        }
+        this->font = fnt;
+        textbox.setFont(font);
     }
 
     void setFont(sf::Font &Font) {
@@ -73,6 +70,8 @@ public:
         isSelected = sel;
         if (!sel) {
             textbox.setString(text);
+        } else {
+            textbox.setString(text + "_");
         }
     }
 
@@ -83,8 +82,9 @@ public:
     void typedOn(sf::Event input) {
         if (isSelected) {
             auto charTyped = input.text.unicode;
-
-            if (charTyped < 128) {
+            std::cout << "am I here";
+            if (charTyped < 128)
+            {
                 if (!hasLimit || (hasLimit && text.length() < limit) || charTyped == DELETE) {
                     inputLogic(charTyped);
                 }

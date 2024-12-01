@@ -51,14 +51,14 @@ public:
 
     void update(const sf::Vector2i& mousePos, bool isClicked) {
         if (shape.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
+            shape.setFillColor(hoverColor);
             if (isClicked) {
                 shape.setFillColor(activeColor);
                 if (onClick) { // Ensure a callback is set
                     onClick();
                 }
-            } else {
-                shape.setFillColor(hoverColor);
             }
+            
         } else {
             shape.setFillColor(idleColor);
         }

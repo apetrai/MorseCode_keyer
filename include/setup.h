@@ -20,17 +20,19 @@ class USER_ACCOUNT {
     
     bool signedIn = false;
 
+    SetWindow WIN;
+    sf::Font font;
+
 public:
     USER_ACCOUNT() {
-        if (signedIn == false)
-        {
-            signedIn = setup(); //If setup returns true the user will be signed in.
-            if(signedIn == true ){main_WIN();}
-        
-        }
-        else {
+        font.loadFromFile("bin/Roboto-Medium.ttf");
+       while (WIN.window.isOpen()) {
+        if (!signedIn) {
+            signedIn = setup();
+        } else {
             main_WIN();
         }
+    }
     }
 
     bool setup();
