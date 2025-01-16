@@ -29,6 +29,9 @@ public:
                 deleteLastChar();
             }
         }
+        else if(charTyped == ENTER) {
+            text += "\n";
+        }
         textbox.setString(text);
     }
 
@@ -82,7 +85,6 @@ public:
     void typedOn(sf::Event input) {
         if (isSelected) {
             auto charTyped = input.text.unicode;
-            std::cout << "am I here";
             if (charTyped < 128)
             {
                 if (!hasLimit || (hasLimit && text.length() < limit) || charTyped == DELETE) {
