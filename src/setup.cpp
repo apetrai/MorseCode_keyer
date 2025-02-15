@@ -15,10 +15,7 @@ void USER_ACCOUNT::main_WIN() {
     WTEXT.textbox.setString("Welcome Guest!");
     WIN.window.setFramerateLimit(FRAME_LIM);
 
-    const sf::Vector2u minSize(900, 900);
-    const sf::Vector2u maxSize(1920, 1080); //Let text be in the same position when max size is reached.
-
-    sf::View view(sf::FloatRect(0, 0, 900, 900)); // Default view of the window.
+    sf::View view(sf::FloatRect(0, 0, 800, 600)); // Default view of the window.
 
     Textbox USER_MESSAGE(15, sf::Color::White, true, font);
     bool isMessageSel = false;
@@ -30,28 +27,11 @@ void USER_ACCOUNT::main_WIN() {
         bool mouseClicked = false;
         while (WIN.window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed){  WIN.window.close();
-                return;
-            }
+            if (event.type == sf::Event::Closed){  WIN.window.close(); return; }
 
-           // If window is resized, adjust the view
-            else if (event.type == sf::Event::Resized) {
-                float newWidth = std::max(event.size.width, minSize.x);
-                float newHeight = std::max(event.size.height, minSize.y);
+// If window is resized, adjust the view
+            if(event.type == sf::Event::Resized){ WIN.ResizeWindow(WIN.window, view); }
 
-                float maxWidth = std::min(event.size.width, maxSize.x);
-                float maxHeight= std::min(event.size.height, maxSize.y);
-
-            if(newWidth == minSize.x || newHeight == minSize.y)
-                WIN.window.setSize(sf::Vector2u(newWidth, newHeight)); // Prohibit window size to be less than min.
-            else if(maxWidth == maxSize.x || maxHeight == maxSize.y)
-                WIN.window.setSize(sf::Vector2u(maxWidth, maxHeight)); // Prohibit window size to be more than max.
-
-        
-
-               
-            }
-          
             sf::Vector2i mousePos = sf::Mouse::getPosition(WIN.window);
 
            
@@ -66,6 +46,7 @@ void USER_ACCOUNT::main_WIN() {
 
             WTEXT.drawTo(WIN.window);
             USER_MESSAGE.drawTo(WIN.window);
+            WIN.window.setView(view);
             WIN.window.display();
         }
     }
@@ -95,10 +76,8 @@ bool USER_ACCOUNT::setup() {
         "bin/Roboto-Medium.ttf", 
     [this](){});
 
-    const sf::Vector2u minSize(900, 900);
-    const sf::Vector2u maxSize(1920, 1080); //Let text be in the same position when max size is reached.
 
-    sf::View view(sf::FloatRect(0, 0, 900, 900)); //Default view of the window.
+    sf::View view(sf::FloatRect(0, 0, 800, 600)); //Default view of the window.
 
     while (WIN.window.isOpen())
     {
@@ -111,35 +90,10 @@ bool USER_ACCOUNT::setup() {
                 return false;
             }
 
-           // If window is resized, adjust the view
-            else if (event.type == sf::Event::Resized) {
-                float newWidth = std::max(event.size.width, minSize.x);
-                float newHeight = std::max(event.size.height, minSize.y);
+ // If window is resized, adjust the view
+            if(event.type == sf::Event::Resized){ WIN.ResizeWindow(WIN.window, view); }           
 
-                float maxWidth = std::min(event.size.width, maxSize.x);
-                float maxHeight= std::min(event.size.height, maxSize.y);
-
-            if(newWidth == minSize.x || newHeight == minSize.y)
-                WIN.window.setSize(sf::Vector2u(newWidth, newHeight)); // Prohibit window size to be less than min.
-            else if(maxWidth == maxSize.x || maxHeight == maxSize.y)
-                WIN.window.setSize(sf::Vector2u(maxWidth, maxHeight)); // Prohibit window size to be more than max.
-
-            // Maintain the original aspect ratio 1:1
-            if (newWidth / newHeight > 900.0f / 900.0f)
-            {
-                // If the window is too wide, match the height and center horizontally
-                view.setSize(900.0f * (newWidth / newHeight), 900.0f);
-                view.setViewport(sf::FloatRect(0, 0, 1, 1));
-                sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-                 WIN.window.setView(sf::View(visibleArea)); //Show more contents of the window.
-             
-                } else {
-                    // If the window is too tall, match the width and center vertically
-                    view.setSize(900.0f * (newWidth / newHeight), 900.0f);
-                    WIN.window.setView(view);
-                }
-
-            }
+            
              sf::Vector2i mousePos = sf::Mouse::getPosition(WIN.window);
              Guest.update(mousePos, mouseClicked);
              if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
@@ -159,6 +113,7 @@ bool USER_ACCOUNT::setup() {
 
                 WTEXT.drawTo(WIN.window);
                 Guest.draw(WIN.window);
+                WIN.window.setView(view);
                 WIN.window.display();
         }
     }
