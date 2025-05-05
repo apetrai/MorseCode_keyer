@@ -19,7 +19,7 @@ add_executable(MorseCodeKeyer
     ${CMAKE_SOURCE_DIR}/src/button.cpp
 )
 
-target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
+target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics sfml-audio)
 target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
 
 # Include OpenAL

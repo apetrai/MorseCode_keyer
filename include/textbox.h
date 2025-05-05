@@ -19,6 +19,7 @@ private:
     bool isSelected = false;
     bool hasLimit = false;
     int limit;
+    sf::Font font;
 
     void inputLogic(char charTyped) {
         if (charTyped != DELETE && charTyped != ENTER && charTyped != ESCAPE) {
@@ -28,6 +29,9 @@ private:
             if (text.length() > 0) {
                 deleteLastChar();
             }
+        }
+        else if(charTyped == ENTER) {
+            text += "\n";
         }
         else if(charTyped == ENTER) {
             text += "\n";
@@ -85,6 +89,8 @@ public:
         isSelected = sel;
         if (!sel) {
             textbox.setString(text);
+        } else {
+            textbox.setString(text + "_");
         }
     }
 
@@ -98,8 +104,8 @@ public:
     void typedOn(sf::Event input) {
         if (isSelected) {
             auto charTyped = input.text.unicode;
-
-            if (charTyped < 128) {
+            if (charTyped < 128)
+            {
                 if (!hasLimit || (hasLimit && text.length() < limit) || charTyped == DELETE) {
                     inputLogic(charTyped);
                 }
