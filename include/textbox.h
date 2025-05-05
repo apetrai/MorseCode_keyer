@@ -13,6 +13,7 @@
 
 class Textbox {
 private:
+    sf::RectangleShape rect;
     sf::Text textbox;
     std::string text = "";
     bool isSelected = false;
@@ -28,6 +29,9 @@ private:
                 deleteLastChar();
             }
         }
+        else if(charTyped == ENTER) {
+            text += "\n";
+        }
         textbox.setString(text);
     }
 
@@ -40,7 +44,7 @@ private:
 
 public:
     Textbox() {}
-    Textbox(int size, sf::Color color, bool sel) {
+    Textbox(int size, sf::Color color, bool sel, sf::Vector2f position, sf::Color defaultColor) {
         textbox.setCharacterSize(size);
         textbox.setFillColor(color);
         isSelected = sel;
@@ -50,6 +54,12 @@ public:
         else {
             textbox.setString("");
         }
+
+        rect.setOrigin({15, 20});
+        rect.setPosition(position);
+        rect.setFillColor(defaultColor);
+        rect.setOutlineThickness(2);
+        rect.setOutlineColor(sf::Color(20, 20, 20));
     }
 
     void setFont(sf::Font &Font) {
@@ -59,6 +69,8 @@ public:
     void setPosition(sf::Vector2f pos) {
         textbox.setPosition(pos);
     }
+
+    void C_setPos(float posX, float posY) { rect.setSize({posX, posY}); }
 
     void setLimit(bool ToF) {
         hasLimit = ToF;
@@ -78,7 +90,10 @@ public:
 
     std::string getText() { return text; }
 
-    void drawTo(sf::RenderWindow &window) { window.draw(textbox); }
+    void drawTo(sf::RenderWindow &window) {
+         window.draw(rect);
+         window.draw(textbox); 
+    }
 
     void typedOn(sf::Event input) {
         if (isSelected) {
@@ -91,6 +106,8 @@ public:
             }
         }
     }
+
+    void RoundedTriangle();
 };
 
 #endif

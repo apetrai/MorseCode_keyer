@@ -1,5 +1,6 @@
 #include "../include/render.h"
 #include "../include/textbox.h"
+#include "../include/button.h"
 #include <filesystem>
 #include <stdexcept>
 
@@ -14,9 +15,26 @@ int main() {
             throw std::range_error("File not found!");
         }
 
-    Textbox textbox(15, sf::Color::White, true);
+    Textbox textbox(30, sf::Color::White, true,
+                    {20, 50}, sf::Color(0, 0, 0, 75));
     textbox.setFont(Roboto);
-    textbox.setPosition({250,250});
+    textbox.setPosition({20,20});
+
+    // Create a button
+    Button myButton(
+        sf::Vector2f(20, 400),  // Position
+        sf::Vector2f(200, 50),   // Size
+        "Send",             // Text
+        Roboto,                  // Font
+        sf::Color(20, 20, 20), // Default color
+        sf::Color(200, 200, 200), // Hover color
+        sf::Color(150, 150, 150)  // Click color
+    );
+
+    // Set button click callback
+    myButton.setOnClick([&textbox]() {
+        //textbox.setText("Button was clicked!");
+    });
 
     sf::View view(sf::FloatRect(0, 0, 900, 900)); //Default view of the window.
 
@@ -58,13 +76,31 @@ int main() {
             else if (event.type == sf::Event::TextEntered) {
                if (event.text.unicode < 128){
                    textbox.typedOn(event);
+                   std::size_t buffer = textbox.getText().length();
+                   int count = 10;
+                   for (auto i : textbox.getText())
+                   {
+                    if(i == ENTER) {
+                        std::cout << i;
+                        count += 10 * count;
+                        continue;
+                    }
+                   }
+                   textbox.C_setPos((float)buffer* 15, count);
                }
             }
 
-            WIN.window.clear(sf::Color(45, 45, 68, 1));
-            textbox.drawTo(WIN.window);
-            WIN.window.display();
+            // Handle button events
+            myButton.handleEvent(event, WIN.window);
         }
+
+        // Update button state
+        myButton.update(WIN.window);
+
+        WIN.window.clear(sf::Color(45, 45, 68, 1));
+        textbox.drawTo(WIN.window);
+        myButton.draw(WIN.window);
+        WIN.window.display();
     }
 
     return 0;

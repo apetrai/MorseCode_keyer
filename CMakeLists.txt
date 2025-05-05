@@ -15,6 +15,8 @@ add_executable(MorseCodeKeyer
     ${CMAKE_SOURCE_DIR}/include/textbox.h
     ${CMAKE_SOURCE_DIR}/src/textbox.cpp
     ${CMAKE_SOURCE_DIR}/include/render.h
+    ${CMAKE_SOURCE_DIR}/include/button.h
+    ${CMAKE_SOURCE_DIR}/src/button.cpp
 )
 
 target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics)
