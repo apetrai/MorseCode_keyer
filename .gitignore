@@ -11,5 +11,4 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 _deps/
 cmake_install.cmake
-.vscode/settings.json
-
+.vscode/
