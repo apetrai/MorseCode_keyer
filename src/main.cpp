@@ -81,15 +81,18 @@ int main() {
                    textbox.typedOn(event);
                    std::size_t buffer = textbox.getText().length();
                    int count = 10;
+                   int LinelengthCount = 0;
                    for (auto i : textbox.getText())
                    {
-                    if(i == ENTER) {
-                        std::cout << i;
-                        count += 10 * count;
+                    if(i == '\n') {
+                        count += 10;
+                        LinelengthCount = 0;
+                        i++;
                         continue;
                     }
+                    LinelengthCount++;
                    }
-                   textbox.C_setPos((float)buffer* 15, count);
+                        textbox.C_setPos((float)buffer - LinelengthCount, count * 5);
                }
             }
 

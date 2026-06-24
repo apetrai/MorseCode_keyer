@@ -10,39 +10,51 @@
 #define DELETE 8
 #define ENTER 13
 #define ESCAPE 27
+#define CTRL 17
+
 
 class Textbox {
 private:
     sf::RectangleShape rect;
     sf::Text textbox;
-    std::string text = "";
+    std::string text;
     bool isSelected = false;
     bool hasLimit = false;
     int limit;
+    std::size_t LimperLine = 20;
     sf::Font font;
 
     void inputLogic(char charTyped) {
         if (charTyped != DELETE && charTyped != ENTER && charTyped != ESCAPE) {
             text += charTyped;
         }
-        else if (charTyped == DELETE) {
-            if (text.length() > 0) {
+        else if(charTyped == ENTER) {
+            text += "\n";
+        }
+        else if(charTyped == DELETE) {
+            bool ctrlHeld = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl);
+            if(ctrlHeld) {
+             if(!text.empty() && text.back() == ' ' && text.length() != 1) {deleteLastChar();}
+             else if(text.length() != 0) {
+                while(!text.empty() && text.back() != ' ') {
+                    deleteLastChar();
+                }
+              }
+              else text.assign("");
+            }
+            else {
                 deleteLastChar();
             }
-        }
-        else if(charTyped == ENTER) {
-            text += "\n";
-        }
-        else if(charTyped == ENTER) {
-            text += "\n";
         }
         textbox.setString(text);
     }
 
     void deleteLastChar() {
-        if (!text.empty()) {
+        if (text.length() > 1) {
             text.pop_back(); // Remove the last character directly
-            textbox.setString(text);
+        }
+        else {
+            text.clear();
         }
     }
 
@@ -59,7 +71,7 @@ public:
             textbox.setString("");
         }
 
-        rect.setOrigin({15, 20});
+        rect.setOrigin({15, 25});
         rect.setPosition(position);
         rect.setFillColor(defaultColor);
         rect.setOutlineThickness(2);
