@@ -18,10 +18,10 @@ int main() {
             throw std::range_error("File not found!");
         }
 
-    Textbox textbox(30, sf::Color::White, true,
-                    {20, 50}, sf::Color(0, 0, 0, 75));
+    Textbox textbox(25, sf::Color::White, true,
+                    {20, 20}, sf::Color(0, 0, 0, 75));
     textbox.setFont(Roboto);
-    textbox.setPosition({20,20});
+    //textbox.setPosition({20,20});
 
     // Create a button
     Button myButton(
@@ -79,21 +79,9 @@ int main() {
             else if (event.type == sf::Event::TextEntered) {
                if (event.text.unicode < 128){
                    textbox.typedOn(event);
-                   std::size_t buffer = textbox.getText().length();
-                   int count = 10;
-                   int LinelengthCount = 0;
-                   for (auto i : textbox.getText())
-                   {
-                    if(i == '\n') {
-                        count += 10;
-                        LinelengthCount = 0;
-                        i++;
-                        continue;
-                    }
-                    LinelengthCount++;
-                   }
-                        textbox.C_setPos((float)buffer - LinelengthCount, count * 5);
-               }
+                   const float padding = 15.f;
+                   textbox.AdjustRectBounds(padding);
+                }
             }
 
             // Handle button events
@@ -102,6 +90,8 @@ int main() {
 
         // Update button state
         myButton.update(WIN.window);
+
+        textbox.update();
 
         WIN.window.clear(sf::Color(45, 45, 68, 1));
         textbox.drawTo(WIN.window);
