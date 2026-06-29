@@ -1,6 +1,10 @@
 #include "../include/render.h"
 #include "../include/textbox.h"
 #include "../include/button.h"
+
+#include "Network/server.cpp"
+#include "Network/client.cpp"
+
 #include <filesystem>
 #include <stdexcept>
 
