@@ -28,13 +28,25 @@ set(NETWORK_SOURCES
 )
 
 add_executable(ServerApp
+    ${CMAKE_SOURCE_DIR}/include/textbox.h
+    ${CMAKE_SOURCE_DIR}/src/textbox.cpp
+    ${CMAKE_SOURCE_DIR}/include/render.h
+    ${CMAKE_SOURCE_DIR}/include/button.h
+    ${CMAKE_SOURCE_DIR}/src/button.cpp
     ${CMAKE_SOURCE_DIR}/src/Network/server.cpp
+    ${CMAKE_SOURCE_DIR}/src/Network/ChatSystem.h
 )
 add_executable(ClientApp
+    ${CMAKE_SOURCE_DIR}/include/textbox.h
+    ${CMAKE_SOURCE_DIR}/src/textbox.cpp
+    ${CMAKE_SOURCE_DIR}/include/render.h
+    ${CMAKE_SOURCE_DIR}/include/button.h
+    ${CMAKE_SOURCE_DIR}/src/button.cpp
     ${CMAKE_SOURCE_DIR}/src/Network/client.cpp
+    ${CMAKE_SOURCE_DIR}/src/Network/ChatSystem.h
 )
-target_link_libraries(ServerApp PRIVATE sfml-network sfml-system)
-target_link_libraries(ClientApp PRIVATE sfml-network sfml-system)
+target_link_libraries(ServerApp PRIVATE sfml-network sfml-system sfml-graphics sfml-audio)
+target_link_libraries(ClientApp PRIVATE sfml-network sfml-system sfml-graphics sfml-audio)
 
 target_link_libraries(MorseCodeKeyer PRIVATE sfml-graphics sfml-audio sfml-network)
 target_compile_features(MorseCodeKeyer PRIVATE cxx_std_17)
