@@ -1,5 +1,7 @@
 #include <SFML/Network.hpp>
 
+#define PORT 2000
+
 class ChatSystem {
     public:
         sf::TcpSocket socket;
@@ -7,3 +9,6 @@ class ChatSystem {
         sf::IpAddress IP = sf::IpAddress::getLocalAddress();
         sf::Packet packet;
 };
+
+
+

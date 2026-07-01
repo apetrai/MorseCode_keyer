@@ -137,7 +137,7 @@ void setLimit(int lim)
         }
     }
 
-    std::string getText() { return text; }
+    std::string& getText() { return text; }
 
     void drawTo(sf::RenderWindow &window) {
          window.draw(rect);

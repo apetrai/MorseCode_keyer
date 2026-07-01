@@ -1,33 +1,25 @@
 #include "ChatSystem.h"
 
 class Client : public ChatSystem {
-    private:
+    public:
+        std::string Username;
+        char ID[20];
+        std::string buffer;
     public:
         sf::Socket::Status status;
-        Client()
-        {
-            status = socket.connect("127.0.0.1", 2000);
+        Client() = default;
 
-               if (status != sf::Socket::Done)
-                {
-                    std::cout << "Connection failed\n";
-                    
-                }
+        void recieve() {
+            status = socket.connect("127.0.0.1", PORT);
 
-        if (socket.receive(packet) == sf::Socket::Done)
-        {
-            std::string status;
-            std::string hello;
-            int number;
-            float pi;
+            if (status != sf::Socket::Done) { std::cout << "Connection failed\n"; return; }
 
-            packet >> status;
-            packet >> hello;
-            packet >> number;
-            packet >> pi;
+            if (socket.receive(packet) == sf::Socket::Done)
+            {
+                packet >> this->Username >> this->buffer;
 
-            std::cout << "Server says: " << status << pi <<  "\n";
-        }
-            socket.send("Online", sizeof("Online"));
+                std::cout << "Server says: " << Username << buffer <<  "\n";
+            }
+                socket.send("Online", sizeof("Online"));
         }
 };
