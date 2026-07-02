@@ -1,5 +1,5 @@
 <div align="center">
-  <h2> Morse Code keyer. <img height="50" src="https://www.pngrepo.com/png/38633/512/morse-code.png"></h2>
+  <h2> MorseMessenger.  <img height="50" src="https://www.pngrepo.com/png/38633/512/morse-code.png"></h2>
  <img src="https://img.shields.io/github/issues/apetrai/MorseCode_translator">
   <img src="https://img.shields.io/github/v/tag/apetrai/MorseCode_translator">
 
@@ -31,8 +31,11 @@ The project demonstrates the use of C++ for network communication, real-time mes
 
 2. Compile the project.
     - Run ```cmake . ``` to download the SFML libraries and link all of the source files.
-    - Run ```make``` to build the SFML dependencies and produce the binary executable.
-    - Run ```./bin/MorseCodeKeyer``` to open the executable.
+    - There are now two seperate binary executables to compile:
+      - For the server app run ```make ServerApp``` to produce the execuatble, then ```./bin/ServerApp```
+      OR:
+      - For the client app run ```make ClientApp``` to produce the execuatble, then ```./bin/ClientApp```
+      
   
 ## Documentation
 **Table of contents:**
@@ -54,8 +57,6 @@ The project demonstrates the use of C++ for network communication, real-time mes
 
 ## The Goal
 
-The goal of the project was to create a chat application that allowed users to communicate by sending and receiving Morse code messages. The main challenge was to create a smooth and responsive GUI while ensuring that Morse code was encoded and decoded efficiently in real time.
-
-
+The goal of the project is to create a chat application that allows users to communicate by sending and receiving Morse code messages. The main challenge is to create a smooth and responsive GUI while ensuring that Morse code is encoded and decoded efficiently in real time.
 
 #
